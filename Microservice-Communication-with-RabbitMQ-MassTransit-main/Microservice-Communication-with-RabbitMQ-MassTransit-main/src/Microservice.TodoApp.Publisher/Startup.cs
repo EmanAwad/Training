@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
 using System;
 
 namespace Microservice.TodoApp.Publisher
@@ -31,6 +32,8 @@ namespace Microservice.TodoApp.Publisher
                         h.Username(RabbitMqConsts.UserName);
                         h.Password(RabbitMqConsts.Password);
                     });
+                    config.ExchangeType = ExchangeType.Direct; // Set the exchange type to Direct
+                    config.Durable = true; // Make exchange durable if needed
                 }));
             });
             services.AddMassTransitHostedService();
