@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
 using System;
 
 namespace Microservice.TodoApp.Consumers
@@ -37,6 +38,12 @@ namespace Microservice.TodoApp.Consumers
                         ep.PrefetchCount = 16;
                         ep.UseMessageRetry(r => r.Interval(2, 100));
                         ep.ConfigureConsumer<TodoConsumer>(provider);
+                        ep.Bind("todoQueue-topic", e =>
+                        {
+                            e.RoutingKey = "private.*";
+                            e.ExchangeType = ExchangeType.Topic;
+                        });
+
                     });
                 }));
             });

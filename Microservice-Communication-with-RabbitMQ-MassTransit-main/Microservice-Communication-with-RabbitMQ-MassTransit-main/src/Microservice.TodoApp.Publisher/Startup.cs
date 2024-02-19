@@ -32,8 +32,6 @@ namespace Microservice.TodoApp.Publisher
                         h.Username(RabbitMqConsts.UserName);
                         h.Password(RabbitMqConsts.Password);
                     });
-                    config.ExchangeType = ExchangeType.Direct; // Set the exchange type to Direct
-                    config.Durable = true; // Make exchange durable if needed
                 }));
             });
             services.AddMassTransitHostedService();
